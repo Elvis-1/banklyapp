@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool credit = false;
   bool debit = false;
   // ApiClient apiClient = ApiClient();
-  bool _isInit = false;
+  bool _isInit = true;
 
   // @override
   // void initState() {
@@ -51,41 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // apiClient.getTransactions();
     var transactions = Provider.of<ApiClient>(context, listen: true);
-    var trans = transactions.transactions;
+    // var trans = transactions.transactions;
+    var trans = transactions.trans;
     var cred = transactions.creditTransaction;
     var deb = transactions.debitTransactions;
     List foundUsers = [];
-    runFilter(String keyWord) {
-      // print('this is ' + keyWord);
-      if (keyWord.isEmpty) {
-        trans = transactions.transactions;
-      } else {
-        foundUsers = trans
-            .where((element) =>
-                element['trnDrCr']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()) ||
-                element['trnAmount']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()) ||
-                element['accountName']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()) ||
-                element['accountNumber']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()) ||
-                element['bankName']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()) ||
-                element['trnNarration']
-                    .toLowerCase()
-                    .contains(keyWord.toLowerCase()))
-            .toList();
-      }
-      setState(() {
-        trans = foundUsers;
-      });
-    }
 
     // print(trans);
     var height = MediaQuery.of(context).size.height;
@@ -110,7 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: height * 0.04,
             ),
             // search bar
-            SearchBar(function: runFilter, color: Colors.white, text: "Search"),
+            SearchBar(
+                function: transactions.runFilter,
+                color: Colors.white,
+                text: "Search"),
             SizedBox(
               height: height * 0.02,
             ),
@@ -179,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: CircularProgressIndicator(),
                               )
                             : AllScreen(
+                                id: trans[index]["trnId"],
                                 iconColor: trans[index]["trnDrCr"] ==
                                             "payment" ||
                                         trans[index]["trnDrCr"] == "invoice" ||
@@ -219,6 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: CircularProgressIndicator(),
                                   )
                                 : DebitScreen(
+                                    id: deb[index]["trnId"],
                                     trnDate: deb[index]["trnDate"],
                                     trnAmount: deb[index]["trnAmount"],
                                     cashColor: Color(0xFFE92022));

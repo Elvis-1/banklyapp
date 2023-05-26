@@ -9,8 +9,8 @@ class DetailsScreen extends StatelessWidget {
     super.key,
   });
   static const routeName = '/details-screen';
-  ApiClient apiClient = ApiClient();
-  @override
+  // ApiClient apiClient = ApiClient();
+  // @override
 
   // @override
   // void didChangeDependencies() {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class AllScreen extends StatelessWidget {
   AllScreen(
       {super.key,
+      required this.id,
       required this.cashColor,
       required this.trnAmount,
       required this.trnDate,
@@ -16,6 +17,7 @@ class AllScreen extends StatelessWidget {
   String trnDate;
   Color iconColor;
   IconData icon;
+  String id;
   // var apiClient = ApiClient().getTransactions();
   // void selectAudio(BuildContext ctx) {
   //   Navigator.of(ctx).pushNamed(AudioScreen.routeName, arguments: id);
@@ -29,7 +31,8 @@ class AllScreen extends StatelessWidget {
     // print('Here ' + trans[1]["trnAmount"].toString());
 
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(DetailsScreen.routeName),
+      onTap: () => Navigator.of(context)
+          .pushNamed(DetailsScreen.routeName, arguments: id),
       //Get.to(DetailsScreen()),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),

@@ -17,6 +17,7 @@ class ApiClient with ChangeNotifier {
   }
 
   List transactions = [];
+  List trans = [];
 
   getTransDetails(id) {
     return transactions.firstWhere((element) {
@@ -26,6 +27,40 @@ class ApiClient with ChangeNotifier {
 
   List creditTransaction = [];
   List debitTransactions = [];
+
+  runFilter(String keyWord) {
+    print('this is ' + keyWord);
+    if (keyWord.isEmpty) {
+      // trans = [];
+      trans = transactions;
+    } else {
+      trans = transactions
+          .where((element) =>
+              element['trnDrCr']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()) ||
+              element['trnAmount']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()) ||
+              element['accountName']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()) ||
+              element['accountNumber']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()) ||
+              element['bankName']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()) ||
+              element['trnNarration']
+                  .toLowerCase()
+                  .contains(keyWord.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+    // setState(() {
+    //   trans = foundUsers;
+    // });
+  }
 
   Future<void> getTransactions() async {
     print('hreerrrrrrrrrrrrr');
@@ -52,6 +87,7 @@ class ApiClient with ChangeNotifier {
     creditTransaction = transactions
         .where((element) => element['trnDrCr'] == "deposit")
         .toList();
+    trans = transactions;
     notifyListeners();
     // var tr = getTransDetails('2');
     // print(transactions);

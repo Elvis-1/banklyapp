@@ -6,14 +6,17 @@ class DebitScreen extends StatelessWidget {
       {super.key,
       required this.cashColor,
       required this.trnAmount,
-      required this.trnDate});
+      required this.trnDate,
+      required this.id});
   Color cashColor;
   String trnAmount;
   String trnDate;
+  String id;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(DetailsScreen.routeName),
+      onTap: () => Navigator.of(context)
+          .pushNamed(DetailsScreen.routeName, arguments: id),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         padding: EdgeInsets.only(top: 40),
